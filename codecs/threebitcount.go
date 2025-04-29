@@ -20,6 +20,19 @@ func (ThreeBitCountCodec) Encode(seq string) (string, error) {
 
 	lastDigit, count := -1, 0
 
+	pushDigits := func(dg, ct int) {
+
+		for ct > 7 {
+			bits = append(bits, threeBitDigitToBinary[7]...)
+			bits = append(bits, threeBitDigitToBinary[dg]...)
+			ct -= 7
+		}
+
+		bits = append(bits, threeBitDigitToBinary[ct]...)
+		bits = append(bits, threeBitDigitToBinary[dg]...)
+
+	}
+
 	for _, s := range seq {
 
 		digit := int(s - '0')
@@ -34,17 +47,15 @@ func (ThreeBitCountCodec) Encode(seq string) (string, error) {
 		}
 
 		if lastDigit >= 0 {
-			fmt.Println(count, "x", lastDigit)
+			pushDigits(lastDigit, count)
 		}
 
 		lastDigit = digit
 		count = 1
 
-		// bits = append(bits, fmt.Sprintf("%03b", digit)...)
-
 	}
 
-	fmt.Println(count, " x ", lastDigit)
+	pushDigits(lastDigit, count)
 
 	return binToHex(string(bits))
 
