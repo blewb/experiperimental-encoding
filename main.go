@@ -8,7 +8,7 @@ import (
 
 const SEQ = "0004000000440000000030000011310002111120121122111211121212121222121111210111111000111100"
 
-const TEST_SEQ = "01234"
+const TEST_SEQ = "01010101"
 
 func main() {
 
@@ -23,6 +23,14 @@ func main() {
 		{
 			codecs.ThreeBitCountCodec{},
 			"Three Bit Count",
+		},
+		{
+			codecs.FiveBitCodec{},
+			"Five Bit",
+		},
+		{
+			codecs.FiveBitCountCodec{},
+			"Five Bit Count",
 		},
 	}
 

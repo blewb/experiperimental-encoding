@@ -15,9 +15,9 @@ type Codec interface {
 
 func prevalidate(seq string) error {
 
-	if len(seq) != SEQUENCE_LENGTH {
-		return fmt.Errorf("invalid sequence length %d - require %d - %s", len(seq), SEQUENCE_LENGTH, seq)
-	}
+	// if len(seq) != SEQUENCE_LENGTH {
+	// 	return fmt.Errorf("invalid sequence length %d - require %d - %s", len(seq), SEQUENCE_LENGTH, seq)
+	// }
 
 	return nil
 
