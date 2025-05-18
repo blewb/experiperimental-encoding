@@ -23,13 +23,13 @@ func (ThreeBitCountCodec) Encode(seq string) (string, error) {
 	pushDigits := func(dg, ct int) {
 
 		for ct > 7 {
-			bits = append(bits, threeBitDigitToBinary[7]...)
-			bits = append(bits, threeBitDigitToBinary[dg]...)
+			bits = append(bits, numberToBinary(7, THREE_BIT_WIDTH)...)
+			bits = append(bits, numberToBinary(dg, THREE_BIT_WIDTH)...)
 			ct -= 7
 		}
 
-		bits = append(bits, threeBitDigitToBinary[ct]...)
-		bits = append(bits, threeBitDigitToBinary[dg]...)
+		bits = append(bits, numberToBinary(ct, THREE_BIT_WIDTH)...)
+		bits = append(bits, numberToBinary(dg, THREE_BIT_WIDTH)...)
 
 	}
 

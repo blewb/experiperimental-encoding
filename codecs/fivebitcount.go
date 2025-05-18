@@ -1,9 +1,5 @@
 package codecs
 
-import (
-	"fmt"
-)
-
 type FiveBitCountCodec struct{}
 
 func (FiveBitCountCodec) Encode(seq string) (string, error) {
@@ -20,36 +16,32 @@ func (FiveBitCountCodec) Encode(seq string) (string, error) {
 	bits := make([]byte, 0, n*4+1)
 	bits = append(bits, '1')
 
-	lastPattern := ""
+	lastPattern := -1
 	count := 0
 
-	pushPattern := func(pt string, ct int) {
+	pushPattern := func(pt, ct int) {
 
 		for ct > 7 {
-			bits = append(bits, threeBitDigitToBinary[7]...)
-			bits = append(bits, fiveBitPatternToBinary[pt]...)
+			bits = append(bits, numberToBinary(7, THREE_BIT_WIDTH)...)
+			bits = append(bits, numberToBinary(pt, FIVE_BIT_WIDTH)...)
 			ct -= 7
 		}
 
-		bits = append(bits, threeBitDigitToBinary[ct]...)
-		bits = append(bits, fiveBitPatternToBinary[pt]...)
+		bits = append(bits, numberToBinary(ct, THREE_BIT_WIDTH)...)
+		bits = append(bits, numberToBinary(pt, FIVE_BIT_WIDTH)...)
 
 	}
 
 	for s := 0; s < n-2; s += 2 {
 
-		pattern := string(seq[s : s+2])
-
-		if _, ok := fiveBitPatternToBinary[pattern]; !ok {
-			return "", fmt.Errorf("invalid digit pattern in sequence - %s", pattern)
-		}
+		pattern := int(seq[s]-'0')*5 + int(seq[s+1]-'0')
 
 		if pattern == lastPattern {
 			count++
 			continue
 		}
 
-		if lastPattern != "" {
+		if lastPattern >= 0 {
 			pushPattern(lastPattern, count)
 		}
 

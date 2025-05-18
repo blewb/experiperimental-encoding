@@ -24,7 +24,7 @@ func (ThreeBitCodec) Encode(seq string) (string, error) {
 			return "", fmt.Errorf("invalid digit in sequence - %d", digit)
 		}
 
-		bits = append(bits, threeBitDigitToBinary[digit]...)
+		bits = append(bits, numberToBinary(digit, THREE_BIT_WIDTH)...)
 
 	}
 

@@ -1,9 +1,5 @@
 package codecs
 
-import (
-	"fmt"
-)
-
 type FiveBitCodec struct{}
 
 func (FiveBitCodec) Encode(seq string) (string, error) {
@@ -19,15 +15,8 @@ func (FiveBitCodec) Encode(seq string) (string, error) {
 	bits = append(bits, '1')
 
 	for s := 0; s < n-2; s += 2 {
-
-		pattern := string(seq[s : s+2])
-
-		if _, ok := fiveBitPatternToBinary[pattern]; !ok {
-			return "", fmt.Errorf("invalid digit pattern in sequence - %s", pattern)
-		}
-
-		bits = append(bits, fiveBitPatternToBinary[pattern]...)
-
+		pattern := int(seq[s]-'0')*5 + int(seq[s+1]-'0')
+		bits = append(bits, numberToBinary(pattern, FIVE_BIT_WIDTH)...)
 	}
 
 	return binToHex(string(bits))

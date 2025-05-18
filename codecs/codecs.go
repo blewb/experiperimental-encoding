@@ -8,6 +8,10 @@ import (
 // Magic number alert
 const SEQUENCE_LENGTH = 88
 
+// Best practices and all that...
+const THREE_BIT_WIDTH = 3
+const FIVE_BIT_WIDTH = 5
+
 type Codec interface {
 	Encode(string) (string, error)
 	Decode(string) (string, error)
@@ -39,5 +43,17 @@ func binToHex(bits string) (string, error) {
 	number.SetString(bits, 2)
 
 	return fmt.Sprintf("%x", number), nil
+
+}
+
+func numberToBinary(num, bits int) string {
+
+	if bits < 1 || bits > 8 {
+		return ""
+	}
+
+	format := "%0" + string('0'+bits) + "b"
+
+	return fmt.Sprintf(format, num)
 
 }
