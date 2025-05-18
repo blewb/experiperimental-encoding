@@ -3,6 +3,7 @@ package codecs
 import (
 	"fmt"
 	"math/big"
+	"strconv"
 )
 
 // Magic number alert
@@ -46,14 +47,34 @@ func binToHex(bits string) (string, error) {
 
 }
 
+func hexToBin(hex string) (string, error) {
+
+	number := big.NewInt(0)
+	number.SetString(hex, 16)
+
+	return fmt.Sprintf("%b", number), nil
+
+}
+
 func numberToBinary(num, bits int) string {
 
 	if bits < 1 || bits > 8 {
 		return ""
 	}
 
-	format := "%0" + string('0'+bits) + "b"
+	format := fmt.Sprintf("%%0%db", bits)
 
 	return fmt.Sprintf(format, num)
+
+}
+
+func binaryToNumber(bits string) int {
+
+	num, err := strconv.ParseInt(bits, 2, 32)
+	if err != nil {
+		return -1
+	}
+
+	return int(num)
 
 }

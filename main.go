@@ -8,7 +8,7 @@ import (
 
 const SEQ = "0004000000440000000030000011310002111120121122111211121212121222121111210111111000111100"
 
-const TEST_SEQ = "01010101"
+const TEST_SEQ = "01234444"
 
 func main() {
 
@@ -34,19 +34,40 @@ func main() {
 		},
 	}
 
+	sequence := TEST_SEQ
+
+	fmt.Println("")
+
+	fmt.Println("####........")
+	fmt.Println("###..", sequence)
+	fmt.Println("##........")
+
 	fmt.Println("")
 
 	for i, item := range codecList {
 
+		// Name
 		fmt.Printf("#%d %s\n", i+1, item.name)
 
-		encoded, err := item.codec.Encode(SEQ)
+		encoded, err := item.codec.Encode(sequence)
 
 		if err != nil {
 			fmt.Printf("%s\n", err.Error())
 		}
 
+		// Encoded
 		fmt.Printf("%s (%d)\n", encoded, len(encoded))
+
+		decoded, err := item.codec.Decode(encoded)
+
+		if err != nil {
+			fmt.Printf("%s\n", err.Error())
+		}
+
+		// Decoder Issue
+		if decoded != sequence {
+			fmt.Printf("decoder does not match input: %s\n", decoded)
+		}
 
 		fmt.Println("")
 

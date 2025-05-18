@@ -33,5 +33,24 @@ func (ThreeBitCodec) Encode(seq string) (string, error) {
 }
 
 func (ThreeBitCodec) Decode(seq string) (string, error) {
-	return "", nil
+
+	bin, _ := hexToBin(seq)
+	output := make([]byte, 0, SEQUENCE_LENGTH)
+
+	// Start at 1 to ignore the leading '1' bit
+	for s := 1; s < len(bin); s += THREE_BIT_WIDTH {
+
+		unit := string(bin[s : s+THREE_BIT_WIDTH])
+		digit := binaryToNumber(unit)
+
+		if !validDigit(digit) {
+			return "", fmt.Errorf("invalid digit in sequence - %d", digit)
+		}
+
+		output = append(output, byte('0'+digit))
+
+	}
+
+	return string(output), nil
+
 }
