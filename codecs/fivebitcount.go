@@ -32,7 +32,7 @@ func (FiveBitCountCodec) Encode(seq string) (string, error) {
 
 	}
 
-	for s := 0; s < n-2; s += 2 {
+	for s := 0; s < n-1; s += 2 {
 
 		pattern := int(seq[s]-'0')*5 + int(seq[s+1]-'0')
 

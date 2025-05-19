@@ -32,9 +32,17 @@ func main() {
 			codecs.FiveBitCountCodec{},
 			"Five Bit Count",
 		},
+		{
+			codecs.AlphaCodec{},
+			"Alpha",
+		},
+		{
+			codecs.AlphaCountCodec{},
+			"Alpha Count",
+		},
 	}
 
-	sequence := TEST_SEQ
+	sequence := SEQ
 
 	fmt.Println("")
 
